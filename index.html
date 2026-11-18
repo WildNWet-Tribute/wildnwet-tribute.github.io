@@ -73,21 +73,52 @@
   .ride-era{color:var(--sun);font-size:clamp(20px,2.6vw,26px);margin:34px 0 6px}
   .ride-era-note{color:var(--ink-soft);font-size:16px;margin:0 0 14px;max-width:46em}
   /* ---------- GALLERY ---------- */
+  /* Dark navy gallery section, full-bleed, in the Northern Lite style.
+     The header above is untouched; only this section changes. */
+  #gallery{max-width:none;margin:0;background:#0a2436;
+    padding:64px max(22px,calc(50vw - 540px)) 72px}
+  #gallery .section-head h2{color:#f2f7fc}
+  #gallery .section-head .years{color:#8fd0e8}
   .filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}
-  .filter-btn{background:transparent;border:1px solid var(--line);color:var(--ink-soft);
+  .filter-btn{background:transparent;border:1px solid #3d6a80;color:#cfe3ee;
     border-radius:999px;padding:9px 18px;font-size:15px;cursor:pointer;font-family:Verdana,Geneva,sans-serif}
-  .filter-btn:hover{border-color:var(--aqua);color:var(--aqua)}
+  .filter-btn:hover{border-color:#8fd0e8;color:#8fd0e8}
   .filter-btn.active{background:var(--aqua);border-color:var(--aqua);color:#fff;font-weight:bold}
-  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
-  .g-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
-    overflow:hidden;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s}
-  .g-item:hover{transform:translateY(-3px)}
-  .g-item img{width:100%;height:190px;object-fit:cover;display:block}
-  .g-item figcaption{padding:12px 14px;font-size:15px;color:var(--ink-soft);line-height:1.5}
-  .g-item .g-theme{font-family:Verdana,Geneva,sans-serif;font-size:11px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--aqua);display:block;margin-bottom:5px}
+  /* Mosaic: 4 columns; the first photo of each theme group is large (2 cols x 2 rows)
+     and the rest pack in beside it with dense flow, so photos vary in size
+     by prominence instead of all being the same small size. */
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;
+    grid-auto-flow:dense;gap:12px}
+  .gallery-grid .g-item:nth-child(1),
+  .gallery-grid .g-item:nth-child(13),
+  .gallery-grid .g-item:nth-child(17),
+  .gallery-grid .g-item:nth-child(24),
+  .gallery-grid .g-item:nth-child(37){grid-column:span 2;grid-row:span 2}
+  /* Edge-to-edge photos: no white card, no border, no rounded corner. The photo
+     fills its frame; the theme label and caption sit overlaid at the bottom
+     of the photo on a dark gradient, bold white, like Northern Lite. */
+  .g-item{position:relative;display:flex;flex-direction:column;justify-content:flex-end;
+    overflow:hidden;cursor:pointer;background:#0a2436;border:0;border-radius:0;box-shadow:none}
+  .g-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .25s}
+  .g-item:hover img{transform:scale(1.03)}
+  .g-item::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58%;z-index:1;
+    background:linear-gradient(to top,rgba(2,12,20,.92),rgba(2,12,20,0));pointer-events:none}
+  .g-item::before{content:"View larger";position:absolute;top:10px;right:10px;z-index:3;
+    background:rgba(2,12,20,.72);color:#fff;font-family:Verdana,Geneva,sans-serif;
+    font-size:11px;letter-spacing:.08em;padding:6px 10px;border-radius:999px;
+    opacity:0;transition:opacity .15s;pointer-events:none}
+  .g-item:hover::before,.g-item:focus-visible::before{opacity:1}
+  .g-item figcaption{position:relative;z-index:2;padding:4px 14px 12px;font-size:15px;
+    line-height:1.45;color:#fff;font-weight:bold;background:transparent;display:-webkit-box;
+    -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .g-item .g-theme{position:relative;z-index:2;font-family:Verdana,Geneva,sans-serif;font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:#9fd4e8;display:block;padding:0 14px}
   .g-item.tiny{align-self:start}
   .g-item.tiny img{height:auto;max-height:150px;object-fit:contain;background:var(--bg-deep)}
+  @media (max-width:860px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:200px}
+  }
   /* ---------- LIGHTBOX ---------- */
   .lightbox{position:fixed;inset:0;z-index:100;background:rgba(2,12,20,.94);
     display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
@@ -151,7 +182,7 @@
   .visitor-label{font-family:Georgia,'Times New Roman',serif;font-size:1.1rem;font-weight:700;color:var(--sun);margin:0 0 .35rem}
   @media (max-width:640px){
     body{font-size:16px}
-    .g-item img{height:160px}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
   }
 </style>
 </head>
